@@ -1,5 +1,18 @@
 import React, { useState } from 'react';
-import { Card, Form, Button, Alert } from 'react-bootstrap';
+import { Alert } from 'react-bootstrap';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+import SendIcon from '@mui/icons-material/Send';
 import axios from 'axios';
 import ResultDisplay from './ResultDisplay';
 
@@ -7,11 +20,11 @@ const OptionCalculator = () => {
   // 表单状态
   const [formData, setFormData] = useState({
     is_call: true,
-    spot_price: '',
-    strike_price: '',
-    time_to_maturity: '',
-    risk_free_rate: '',
-    volatility: ''
+    spot_price: '', // 标的当前市场价格
+    strike_price: '', // 执行价格
+    time_to_maturity: '', // 到期时间
+    risk_free_rate: '', // 无风险利率
+    volatility: '' // 波动率
   });
 
   // 结果状态
@@ -69,139 +82,86 @@ const OptionCalculator = () => {
 
   return (
     <>
-      <Card className="mb-4">
-        <Card.Header className="bg-primary text-white">
-          <h3 className="mb-0">输入参数</h3>
-        </Card.Header>
-        <Card.Body>
-          <Form onSubmit={handleSubmit}>
-            {/* 期权类型 */}
-            <Form.Group className="mb-3">
-              <Form.Label>期权类型</Form.Label>
-              <div>
-                <Form.Check
-                  inline
-                  type="radio"
-                  id="call-option"
-                  label="看涨期权 (Call)"
-                  name="optionType"
-                  value="call"
-                  checked={formData.is_call}
-                  onChange={handleRadioChange}
-                />
-                <Form.Check
-                  inline
-                  type="radio"
-                  id="put-option"
-                  label="看跌期权 (Put)"
-                  name="optionType"
-                  value="put"
-                  checked={!formData.is_call}
-                  onChange={handleRadioChange}
-                />
-              </div>
-            </Form.Group>
-
-            {/* 标的资产当前价格 */}
-            <Form.Group className="mb-3">
-              <Form.Label>标的资产当前价格 (S)</Form.Label>
-              <Form.Control
-                type="number"
-                name="spot_price"
-                value={formData.spot_price}
-                onChange={handleInputChange}
-                step="0.01"
-                min="0.01"
-                placeholder="例如：100.00"
-                required
-              />
-              <Form.Text className="text-muted">
-                当前市场上标的资产的价格，必须大于0
-              </Form.Text>
-            </Form.Group>
-
-            {/* 行权价格 */}
-            <Form.Group className="mb-3">
-              <Form.Label>行权价格 (K)</Form.Label>
-              <Form.Control
-                type="number"
-                name="strike_price"
-                value={formData.strike_price}
-                onChange={handleInputChange}
-                step="0.01"
-                min="0.01"
-                placeholder="例如：95.00"
-                required
-              />
-              <Form.Text className="text-muted">
-                期权合约中规定的买入或卖出标的资产的价格，必须大于0
-              </Form.Text>
-            </Form.Group>
-
-            {/* 到期时间 */}
-            <Form.Group className="mb-3">
-              <Form.Label>到期时间 (T) (年)</Form.Label>
-              <Form.Control
-                type="number"
-                name="time_to_maturity"
-                value={formData.time_to_maturity}
-                onChange={handleInputChange}
-                step="0.01"
-                min="0"
-                placeholder="例如：0.5（半年）"
-                required
-              />
-              <Form.Text className="text-muted">
-                期权到期前的剩余时间，以年为单位（例如：3个月=0.25年）
-              </Form.Text>
-            </Form.Group>
-
-            {/* 无风险利率 */}
-            <Form.Group className="mb-3">
-              <Form.Label>无风险利率 (r)</Form.Label>
-              <Form.Control
-                type="number"
-                name="risk_free_rate"
-                value={formData.risk_free_rate}
-                onChange={handleInputChange}
-                step="0.001"
-                placeholder="例如：0.05（5%）"
-                required
-              />
-              <Form.Text className="text-muted">
-                与期权期限相匹配的国债利率，例如：5%应输入0.05
-              </Form.Text>
-            </Form.Group>
-
-            {/* 波动率 */}
-            <Form.Group className="mb-3">
-              <Form.Label>波动率 (σ)</Form.Label>
-              <Form.Control
-                type="number"
-                name="volatility"
-                value={formData.volatility}
-                onChange={handleInputChange}
-                step="0.01"
-                min="0.01"
-                placeholder="例如：0.2（20%）"
-                required
-              />
-              <Form.Text className="text-muted">
-                标的资产价格的波动程度，例如：20%应输入0.2
-              </Form.Text>
-            </Form.Group>
-
-            <Button
-              variant="primary"
-              type="submit"
-              className="w-100"
-              disabled={loading}
+      <Card sx={{ borderRadius: 4, width: 600 }}>
+      <CardContent>
+        <FormControl component="fieldset">
+            <FormLabel id="option-type" sx={{ fontWeight: 800, fontSize: 20, color: '#D1B6FF' }}>
+              期权类型
+            </FormLabel>
+            <RadioGroup
+              row
+              aria-labelledby="option-type-radio-buttons-group-label"
+              name="option-type-radio-buttons-group"
+              sx={{ border: 1, borderRadius: 2, marginBottom: 2, display: 'flex', justifyContent: 'space-between' }}
             >
-              {loading ? '计算中...' : '计算期权价格'}
-            </Button>
-          </Form>
-        </Card.Body>
-      </Card>
+              <FormControlLabel value="call" control={<Radio />} label="看涨期权(Call)" />
+              <FormControlLabel value="put" control={<Radio />} label="看跌期权(Put)" />
+            </RadioGroup>
+
+            <FormLabel id="price-setting" sx={{ fontWeight: 800, fontSize: 20, color: '#D1B6FF' }}>
+              相关价格设置
+            </FormLabel>
+
+            <Box sx={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              marginBottom: 2, 
+              justifyContent: 'space-between' 
+              }}>
+              <TextField 
+                error={formData.spot_price === ''}
+                id="spot-price" 
+                label="标的当前市场价格" 
+                variant="outlined"
+                helperText="保留小数点后两位"
+                sx={{ width: '45%' }}
+                />
+              <TextField 
+              error={formData.strike_price === ''}
+              id="strike-price" 
+              label="行权价格" 
+              variant="outlined"
+              helperText="保留小数点后两位"
+              sx={{ width: '45%' }}
+               />
+            </Box>
+
+            <FormLabel id="other-setting" sx={{ fontWeight: 800, fontSize: 20, color: '#D1B6FF' }}>
+              其他相关系数设置
+            </FormLabel>
+
+            <Box sx={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              marginBottom: 2, 
+              justifyContent: 'space-between' 
+              }}>
+              <TextField 
+                error={formData.spot_price === ''}
+                id="spot-price" 
+                label="波动率" 
+                variant="outlined"
+                helperText="保留小数点后两位"
+                sx={{ width: '45%' }}
+                />
+              <TextField 
+              error={formData.strike_price === ''}
+              id="strike-price" 
+              label="无风险利率" 
+              variant="outlined"
+              helperText="保留小数点后两位"
+              sx={{ width: '45%' }}
+               />
+            </Box>
+            
+          </FormControl>
+      </CardContent>
+      <CardActions>
+        <Button variant="contained" endIcon={<SendIcon />}>
+          计算
+        </Button>
+      </CardActions>
+    </Card>
 
       {/* 显示结果或错误 */}
       {result && <ResultDisplay result={result} />}
