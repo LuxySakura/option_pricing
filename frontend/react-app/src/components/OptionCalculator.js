@@ -41,8 +41,9 @@ const OptionCalculator = () => {
     });
   };
 
-  // 处理单选按钮变化
+  // 处理期权类型变化
   const handleRadioChange = (e) => {
+    console.log(e.target.value);
     setFormData({
       ...formData,
       is_call: e.target.value === 'call'
@@ -82,23 +83,24 @@ const OptionCalculator = () => {
 
   return (
     <>
-      <Card sx={{ borderRadius: 4, width: 600 }}>
+      <Card sx={{ borderRadius: 4, width: 600 }} elevation={5}>
       <CardContent>
-        <FormControl component="fieldset">
-            <FormLabel id="option-type" sx={{ fontWeight: 800, fontSize: 20, color: '#D1B6FF' }}>
+        <FormControl component="fieldset" sx={{border: 2, width: "100%"}}>
+            <FormLabel id="option-type" sx={{ fontWeight: 800, fontSize: 20, color: '#3F3F3F' }}>
               期权类型
             </FormLabel>
             <RadioGroup
               row
               aria-labelledby="option-type-radio-buttons-group-label"
               name="option-type-radio-buttons-group"
-              sx={{ border: 1, borderRadius: 2, marginBottom: 2, display: 'flex', justifyContent: 'space-between' }}
+              onChange={handleRadioChange}
+              sx={{ marginBottom: 2, display: 'flex', justifyContent: 'space-between' }}
             >
               <FormControlLabel value="call" control={<Radio />} label="看涨期权(Call)" />
               <FormControlLabel value="put" control={<Radio />} label="看跌期权(Put)" />
             </RadioGroup>
 
-            <FormLabel id="price-setting" sx={{ fontWeight: 800, fontSize: 20, color: '#D1B6FF' }}>
+            <FormLabel id="price-setting" sx={{ fontWeight: 800, fontSize: 20, color: '#3F3F3F' }}>
               相关价格设置
             </FormLabel>
 
@@ -106,12 +108,13 @@ const OptionCalculator = () => {
               display: 'flex', 
               alignItems: 'center', 
               marginBottom: 2, 
+              marginTop: 1,
               justifyContent: 'space-between' 
               }}>
               <TextField 
                 error={formData.spot_price === ''}
                 id="spot-price" 
-                label="标的当前市场价格" 
+                label="标的当前价格" 
                 variant="outlined"
                 helperText="保留小数点后两位"
                 sx={{ width: '45%' }}
@@ -126,7 +129,7 @@ const OptionCalculator = () => {
                />
             </Box>
 
-            <FormLabel id="other-setting" sx={{ fontWeight: 800, fontSize: 20, color: '#D1B6FF' }}>
+            <FormLabel id="other-setting" sx={{ fontWeight: 800, fontSize: 20, color: '#3F3F3F' }}>
               其他相关系数设置
             </FormLabel>
 
@@ -134,6 +137,7 @@ const OptionCalculator = () => {
               display: 'flex', 
               alignItems: 'center', 
               marginBottom: 2, 
+              marginTop: 1,
               justifyContent: 'space-between' 
               }}>
               <TextField 
@@ -156,8 +160,18 @@ const OptionCalculator = () => {
             
           </FormControl>
       </CardContent>
-      <CardActions>
-        <Button variant="contained" endIcon={<SendIcon />}>
+      <CardActions sx={{ 
+        display: 'flex',
+        width: '100%', 
+        justifyContent: 'center' 
+        }}>
+        <Button 
+        variant="contained" 
+        startIcon={<SendIcon />} 
+        sx={{
+          width: "50%"
+        }}
+        >
           计算
         </Button>
       </CardActions>

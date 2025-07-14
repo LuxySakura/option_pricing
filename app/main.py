@@ -98,7 +98,8 @@ def calculate_option_price(input_data: OptionPricingInput):
             K=input_data.strike_price,
             T=input_data.time_to_maturity,
             r=input_data.risk_free_rate,
-            sigma=input_data.volatility
+            sigma=input_data.volatility,
+            q=input_data.dividend_yield
         )
         
         return OptionPricingOutput(
