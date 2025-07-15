@@ -15,8 +15,8 @@ app = FastAPI(
 # --- 自定义异常处理器 ---
 # 创建一个从 Pydantic 错误类型到中文消息的映射
 PYDANTIC_ERROR_PARAM_MAP = {
-    "spot_price": "现货价格",
-    "strike_price": "执行价格",
+    "spot_price": "标的当前价格",
+    "strike_price": "行权价格",
     "time_to_maturity": "到期时间",
     "volatility": "波动率",
     "risk_free_rate": "无风险利率",
