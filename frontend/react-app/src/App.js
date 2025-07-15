@@ -8,13 +8,14 @@ function App() {
     <Container>
       <Row className="justify-content-center">
         <Col md={8}>
-          <Typography variant="h3" component="h1"
+          <Typography variant="h4" component="h1"
            sx={{
               fontWeight: 'bold',         // 设置粗体
               textAlign: 'center',        // 居中对齐
-              mb: 4,                      // margin-bottom: 4 * 8px = 32px
+              mb: 1,                      // margin-bottom: 1 * 8px = 8px
               textTransform: 'uppercase', // 文本大写
               letterSpacing: 2,           // 字符间距
+              color: '#ffffff'
             }}
            gutterBottom>
             欧式期权定价计算器

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Alert } from 'react-bootstrap';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -18,6 +17,7 @@ import ResultDisplay from './ResultDisplay';
 import InputAdornment from '@mui/material/InputAdornment';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import Alert from '@mui/material/Alert';
 
 const time = [
   {
@@ -192,7 +192,7 @@ const OptionCalculator = () => {
       <Card 
         component="form" 
         onSubmit={handleSubmit} 
-        sx={{ borderRadius: 4, width: 600 }} elevation={5}
+        sx={{ borderRadius: 4, width: 600, height: 525 }} elevation={5}
       >
         <CardContent>
           <FormControl component="fieldset" sx={{ width: "100%"}}>
@@ -205,7 +205,7 @@ const OptionCalculator = () => {
                 name="is_call"
                 value={formData.is_call}
                 onChange={handleRadioChange}
-                sx={{ marginBottom: 2, display: 'flex', justifyContent: 'space-between' }}
+                sx={{ marginBottom: 1, display: 'flex', justifyContent: 'space-between' }}
               >
                 <FormControlLabel value={true} control={<Radio />} label="看涨期权(Call)" />
                 <FormControlLabel value={false} control={<Radio />} label="看跌期权(Put)" />
@@ -218,7 +218,7 @@ const OptionCalculator = () => {
               <Box sx={{ 
                 display: 'flex', 
                 alignItems: 'center', 
-                marginBottom: 2, 
+                marginBottom: 1, 
                 marginTop: 1,
                 justifyContent: 'space-between' 
                 }}>
@@ -277,7 +277,7 @@ const OptionCalculator = () => {
               <Box sx={{ 
                 display: 'flex', 
                 alignItems: 'center', 
-                marginBottom: 2, 
+                marginBottom: 1, 
                 marginTop: 1,
                 justifyContent: 'space-between' 
                 }}>
@@ -326,7 +326,7 @@ const OptionCalculator = () => {
               <Box sx={{ 
                 display: 'flex', 
                 alignItems: 'center', 
-                marginBottom: 2, 
+                marginBottom: 1, 
                 marginTop: 1,
                 justifyContent: 'space-between' 
                 }}>
@@ -405,28 +405,111 @@ const OptionCalculator = () => {
         <CardActions sx={{ 
           display: 'flex',
           width: '100%', 
-          justifyContent: 'center' 
+          justifyContent: 'center',
+          height: 20 
           }}>
           <Button 
           variant="contained" 
-          startIcon={<SendIcon />} 
+          endIcon={<SendIcon />}
+          loading={loading}
+          loadingPosition='end'
           type="submit"
           sx={{
-            width: "50%"
+            width: "50%",
+            fontSize: 18
           }}
           >
             计算
           </Button>
         </CardActions>
       </Card>
-
+ 
       {/* 显示结果或错误 */}
-      {result && <ResultDisplay result={result} />}
+      {result && (
+        <Card sx={{
+          mt: 2, 
+          borderRadius: 2, 
+          width: 600, 
+          backgroundColor: '#c1fcf4', 
+          height: 120,
+          paddingTop: 0,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center'
+          }} 
+          elevation={5}>
+          <CardContent>
+            <Typography component="div" 
+              sx={{
+                fontWeight: 800,            // 设置粗体
+                textAlign: 'center',        // 居中对齐
+                fontSize: 20,
+                color: '#3F3F3F',
+                mb: 1,                      // margin-bottom: 2 * 8px = 16px
+                textTransform: 'uppercase', // 文本大写
+                letterSpacing: 2,           // 字符间距
+              }} 
+            gutterBottom>
+              计算结果
+            </Typography>
+
+            <Box sx={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'space-between', 
+              width: 400
+              }}>
+              <Typography 
+              component="p" 
+              sx={{ 
+                fontWeight: 800,            // 设置粗体
+                textAlign: 'center',        // 居中对齐
+                fontSize: 18,  
+              }} 
+              color="text.secondary">
+              期权类型: 
+                <Typography 
+                component="p" 
+                sx={{ 
+                  fontWeight: 800,            // 设置粗体
+                  textAlign: 'center',        // 居中对齐
+                  fontSize: 20,  
+                  color: result.option_type === '看涨期权(Call)' ? 'success.main' : 'error.main'
+                }}>
+                  {result.option_type}
+                </Typography>
+              </Typography>
+              <Typography 
+              component="p" 
+              sx={{ 
+                fontWeight: 800,            // 设置粗体
+                textAlign: 'center',        // 居中对齐
+                fontSize: 18, 
+              }}
+              color="text.secondary"
+              >
+                期权价格
+                <Typography 
+                  component="p" 
+                  sx={{ 
+                    fontWeight: 1000,            // 设置粗体
+                    textAlign: 'center',        // 居中对齐
+                    fontSize: 22,
+                    color: '#d776fc'  
+                  }} 
+                  >
+                  ￥{result.option_price.toFixed(2)}
+                </Typography>
+              </Typography>
+            </Box>
+            
+          </CardContent>
+        </Card>
+      )}
       
       {error && (
-        <Alert variant="danger">
-          <Alert.Heading>错误</Alert.Heading>
-          <p>{error}</p>
+        <Alert sx={{mt: 2, borderRadius: 2, width: 600 }} elevation={5} variant="filled" severity="error">
+          {error}
         </Alert>
       )}
     </>

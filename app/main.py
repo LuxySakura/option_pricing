@@ -57,7 +57,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
             else:
                 message = message_template
         else:
-            # 如果在我们的映射中没有找到对应的中文模板，则使用 Pydantic 的默认英文消息
+            # 如果映射中没有找到对应的中文模板，则使用 Pydantic 的默认英文消息
             message = error['msg']
             
         error_messages.append(f"参数 '{field}' 无效: {message}")
@@ -176,7 +176,7 @@ def calculate_option_price(input_data: OptionPricingInput):
         
         return OptionPricingOutput(
             option_price=price,
-            option_type="Call" if input_data.is_call else "Put"
+            option_type="看涨期权(Call)" if input_data.is_call else "看跌期权(Put)"
         )
     except Exception as e:
         # 这个try-except块现在主要用于捕获计算过程中可能出现的其他运行时错误

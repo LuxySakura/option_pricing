@@ -5,10 +5,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color:  #a88fee;
-  /* background-repeat: no-repeat;
+  background-image: linear-gradient(to bottom, #eab0f5, #e6a2f6, #e293f8, #dd85fa, #d776fc);
+  background-repeat: no-repeat;
   background-attachment: fixed; 
-  min-height: 100vh; */
+  min-height: 100vh;
   padding-top: 2rem;
 }
 
