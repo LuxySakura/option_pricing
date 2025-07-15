@@ -11,7 +11,6 @@ function App() {
           <Typography variant="h3" component="h1"
            sx={{
               fontWeight: 'bold',         // 设置粗体
-              color: '#FFFFFF',      // 使用主题的主色
               textAlign: 'center',        // 居中对齐
               mb: 4,                      // margin-bottom: 4 * 8px = 32px
               textTransform: 'uppercase', // 文本大写

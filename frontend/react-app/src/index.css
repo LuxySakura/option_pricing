@@ -5,10 +5,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: linear-gradient(to right top, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
-  background-repeat: no-repeat;
-  background-attachment: fixed; /* 让背景在滚动时固定 */
-  min-height: 100vh; /* 确保背景至少覆盖整个视口高度 */
+  color:  #a88fee;
+  /* background-repeat: no-repeat;
+  background-attachment: fixed; 
+  min-height: 100vh; */
   padding-top: 2rem;
 }
 
