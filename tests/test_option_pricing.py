@@ -40,7 +40,6 @@ def test_put_option_pricing():
     # 使用近似值进行比较
     assert round(price, 2) == 3.71, f"看跌期权价格计算错误: {price}"
 
-
 # 边界测试：到期时间 == 0
 def test_zero_time_to_maturity():
     """测试到期时间为0的情况"""

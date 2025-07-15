@@ -17,23 +17,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Alert from '@mui/material/Alert';
-
-const time = [
-  {
-    value: 'month',
-    label: '月',
-  },
-  {
-    value: 'day',
-    label: '日',
-  },
-  {
-    value: 'year',
-    label: '年',
-  }
-];
-
-const TRADING_DAYS = 252; // 每年平均交易日
+import {timeUnitTransfer, time} from '../utils/timeUnit.jsx';
 
 const OptionCalculator = () => {
   // 表单状态
@@ -139,21 +123,7 @@ const OptionCalculator = () => {
     setLoading(true);
 
     try {
-      // 首先将用户提交的时间统一转换为以年为单位的值
-      const raw_time_to_maturity = parseFloat(formData.time_to_maturity);
-      // 获取用户提交的时间单位
-      // 第一个匹配项后就立即停止遍历，并只返回那一个元素，提高性能
-      const timeUnit = (time.find(unit => unit.label === formTimeUnit)).value;
-      let final_time_to_maturity = 0.0
-      // 计算不同单位下的转换
-      if (timeUnit === 'month') {
-        final_time_to_maturity = raw_time_to_maturity / 12;
-      } else if (timeUnit === 'day') {
-        // 按照交易日统计
-        final_time_to_maturity = raw_time_to_maturity / TRADING_DAYS;
-      } else {
-        final_time_to_maturity = raw_time_to_maturity;
-      }
+      let final_time_to_maturity = timeUnitTransfer(formData.time_to_maturity, formTimeUnit)
 
       // 转换表单数据为API所需格式
       const apiData = {
@@ -171,6 +141,7 @@ const OptionCalculator = () => {
       setResult(response.data);
     } catch (err) {
       // 确保错误信息是字符串
+      console.log(err)
       setError(
         typeof err.response?.data?.detail === 'string' 
           ? err.response.data.detail
@@ -516,7 +487,6 @@ const OptionCalculator = () => {
         )}
 
       </Box>
-      
     </>
   );
 };

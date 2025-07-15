@@ -16,6 +16,7 @@ Option Pricing Project for ShinnyTech
 该文件夹包含前端应用的源代码。
 #### `\frontend\react-app\src`文件夹存储基于React框架的前端代码
 #### `\frontend\react-app\src\components`文件夹存储表单组件
+#### `\frontend\react-app\src\utils`文件夹存储工具函数及其测试文件
 
 ### `\scripts`文件夹
 存储依赖安装以及运行相关的批处理脚本
@@ -350,6 +351,14 @@ pytest tests/test_option_pricing.py
         - 相关测试函数名：`test_put_option_pricing()`
         - 输入：看跌期权，S=100，K=95，T=1，r=0.05，σ=0.2, q=0
         - 输出：预期的看跌期权价格
+    - 正常情况 3：提交时间单位为年，月，日时不同精度下结果都准确
+        - 相关测试文件：`timeUnit.test.js`
+        - 文件路径：`frontend\react-app\src\utils`
+        - 输入：
+            - {1(年)}
+            - {12(月)}
+            - {252(日)}
+        - 输出：预期的后端参数应该相同，都为1.0
 - 边界测试用例
     - 边界情况 1：期权剩余到期时间 = 0
         - 相关测试函数名：`test_zero_time_to_maturity()`
@@ -388,17 +397,21 @@ pytest tests/test_option_pricing.py
 - 前端匹配`timeUnit`时使用`find()`：第一个匹配项后就立即停止遍历，并只返回那一个元素，提高性能
 - 由于前端为用户提供了到期时间的具体精度的选项，方便了用户的计算。因此需要程序对不同的时间精度进行一个转换。
     - “日”精度下，`OptionCalculator.js`内定义了一个`TRADING_DAYS`全局变量，表示一年内的交易日天数，用于将“日”精度的到期时间转换为“年”精度。
+- 使用`vite`依赖提高前端应用启动的速度
 
 
 ## 依赖文件描述与说明
 
 ### python后端依赖
-项目中Python后端 API运行过程中涉及到的各个依赖库及其版本信息存储在
-`requirements.txt`文件中
+`requirements.txt`文件：存储项目中Python后端 API运行过程中涉及到的各个依赖库及其版本信息
 
 ### React前端依赖
-项目中使用React框架进行前端系统的开发，涉及到的各个依赖库及其相关信息存储在
-`/frontend/react-app/package.json`文件中
+`/frontend/react-app/package.json`文件：存储项目中使用React框架进行前端系统的开发涉及到的各个依赖库及其相关信息
+
+`/frontend/react-app/babel.config.js`文件：存储前端相关测试配置
+
+`/frontend/react-app/vite.config.js`文件：存储前端`vite`部署启动优化配置
+
 
 ## TO DO 
 - [√] 学习 Black-Scholes 模型

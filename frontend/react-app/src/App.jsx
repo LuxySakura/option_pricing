@@ -1,6 +1,6 @@
 import { Container, Row, Col } from 'react-bootstrap';
 import Typography from '@mui/material/Typography';
-import OptionCalculator from './components/OptionCalculator';
+import OptionCalculator from './components/OptionCalculator.jsx';
 
 function App() {
   return (
